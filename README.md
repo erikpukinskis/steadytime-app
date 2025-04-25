@@ -1,9 +1,15 @@
 ## Getting started
 
 ```
+cp .env.example .env.local
 yarn install
+npx convex dev
 yarn start:app:dev
 ```
+
+## Architecture
+
+First thing is just to get "Go Mode" working
 
 ## Work log
 

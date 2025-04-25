@@ -5,23 +5,17 @@ This one removed a bunch of detail in the instructions that I think was necessar
 Also, as a side note, I looked up this example of a Go Mode response from an earlier conversation:
 
 ### 11:25–11:50am – Light Prep & Grounding Block
- - Review your top 3 Rails strengths and one question you want to ask
- - Sip water, stretch, brush teeth or chew gum to signal focus
- - If any emotional weight lingers, say one sentence aloud to name it (“I’m disappointed, and still showing up.”)
+
+- Review your top 3 Rails strengths and one question you want to ask
+- Sip water, stretch, brush teeth or chew gum to signal focus
+- If any emotional weight lingers, say one sentence aloud to name it (“I’m disappointed, and still showing up.”)
+
 ### 11:50–12:00pm – Tech Setup + Calm Transition
- - Open meeting link, silence notifications, check lighting/audio
- - Sit still for 60 seconds, breathe slowly—this is a reset
+
+- Open meeting link, silence notifications, check lighting/audio
+- Sit still for 60 seconds, breathe slowly—this is a reset
+
 Let me know how you’re feeling after the interview, and we’ll regroup from there.
-
-
-
-
-
-
-
-
-
-
 
 # Instructions
 
