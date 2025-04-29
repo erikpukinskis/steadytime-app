@@ -4,7 +4,6 @@ import { v } from "convex/values"
 import OpenAI from "openai"
 import type { ResponseInput } from "openai/resources/responses/responses"
 import { z } from "zod"
-import type { Block } from "./prompts"
 import {
   blockSchema,
   emotionHacks,
