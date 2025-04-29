@@ -21,3 +21,26 @@ export function formatInstant(
       })
   }
 }
+
+type FormatDurationArgs = {
+  start: string
+  end: string
+}
+
+/**
+ * @param start a time string in military time format (HH:MM)
+ * @param end a time string in military time format (HH:MM)
+ * @returns a string representing the time range, formatted for the locale, e.g. "H:MMam - H:MMpm"
+ */
+export function formatDuration({ start, end }: FormatDurationArgs): string {
+  return `${militaryTimeToLocaleString(start)}—${militaryTimeToLocaleString(end)}`
+}
+
+function militaryTimeToLocaleString(time: string) {
+  return Temporal.PlainTime.from(time)
+    .toLocaleString("en-US", {
+      timeStyle: "short",
+    })
+    .toLocaleLowerCase()
+    .replace(" ", "")
+}

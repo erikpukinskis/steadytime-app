@@ -16,6 +16,7 @@ import {
   timeAwareness,
 } from "./prompts"
 import { vBlock } from "./schema"
+import { parseOrThrow } from "~/helpers/parseOrThrow"
 import { formatInstant, getCurrentInstant, toUnix } from "~/helpers/time"
 
 if (!process.env.OPENAI_API_KEY) {
@@ -135,6 +136,8 @@ export const regenerate = action({
 
     // console.debug("INPUT", input)
 
+    console.log("Waiting for ChatGPT...")
+
     const response = await openai.responses.create({
       model: "gpt-4o",
       input,
@@ -145,10 +148,14 @@ export const regenerate = action({
       switch (output.type) {
         case "message": {
           const [content] = output.content
+
+          console.log(content.type, "content")
+
           if (content.type === "refusal") {
             throw new Error("Refusal")
           }
 
+          console.log(content.text)
           const { blocks, text } = parseResponse(content.text)
 
           await ctx.runMutation(internal.responses.create, {
@@ -185,13 +192,23 @@ export const regenerate = action({
 function parseResponse(responseText: string) {
   const [text, blocksText] = responseText.split("-*-*-*-")
 
-  let blocks: Block[] | undefined
+  const cleaned = blocksText.replace(/^[^{[]*/, "").replace(/[^}\]]*$/, "")
 
-  const result = z.array(blockSchema).safeParse(blocksText)
+  console.log("CLEANED", cleaned)
 
-  if (result.success) {
-    blocks = result.data
+  let json: unknown
+  try {
+    json = JSON.parse(cleaned)
+  } catch (e) {
+    console.debug("RESPONSE", responseText)
+    throw new Error("Invalid JSON in response")
   }
+
+  const blocks = parseOrThrow(
+    z.array(blockSchema),
+    json,
+    "Could not parse blocks",
+  )
 
   return { text, blocks }
 }

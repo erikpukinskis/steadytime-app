@@ -1,9 +1,12 @@
 import { api } from "@convex/api"
 import type { Id } from "@convex/dataModel"
 import { styled, globalCss } from "@stitches/react"
+import type { Block } from "convex/prompts"
 import { useQuery, useMutation, useAction } from "convex/react"
 import React, { useState } from "react"
+import Markdown from "react-markdown"
 import { Loading } from "./components/Loading"
+import { formatDuration } from "./helpers/time"
 import { IconButton } from "~/components/IconButton"
 
 const globalStyles = globalCss({
@@ -29,7 +32,68 @@ const SentMessage = styled("div", {
   borderRadius: 10,
 })
 
-const AgentResponse = styled("div", {})
+type AgentResponseProps = {
+  text: string
+  blocks?: Block[]
+  className?: string
+}
+
+const AgentResponse = styled(
+  ({ text, blocks, className }: AgentResponseProps) => {
+    return (
+      <div className={className}>
+        <Markdown>{text}</Markdown>
+        {blocks && (
+          <BlockInfoGroup>
+            {blocks.map((block) => (
+              <BlockInfo key={block.start} {...block} />
+            ))}
+          </BlockInfoGroup>
+        )}
+      </div>
+    )
+  },
+  {},
+)
+
+const BlockInfoGroup = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1em",
+  maxWidth: 500,
+})
+
+type BlockInfoProps = Pick<
+  Block,
+  "start" | "end" | "title" | "guidance" | "transition"
+> & {
+  className?: string
+}
+
+const BlockInfo = styled(
+  ({ start, end, title, guidance, transition, className }: BlockInfoProps) => {
+    return (
+      <div className={className}>
+        <h3>
+          {formatDuration({ start, end })} — {title}
+        </h3>
+        <ul>
+          {guidance.map((guidance) => (
+            <li key={guidance}>{guidance}</li>
+          ))}
+        </ul>
+        {transition && <b>Transition: {transition}</b>}
+      </div>
+    )
+  },
+  {
+    border: "1px solid #bbf",
+    boxShadow: "0px 2px 6px 0 rgba(0, 0, 0, 0.1)",
+    padding: "0em 1em 1em 1em",
+    borderRadius: "1em",
+    color: "#337",
+  },
+)
 
 const Chat = styled("div", {
   maxWidth: 768,
@@ -38,6 +102,7 @@ const Chat = styled("div", {
   flexDirection: "column",
   gap: "1em",
   alignItems: "flex-end",
+  paddingBottom: "10em",
 })
 
 const Textarea = styled("textarea", {
@@ -54,9 +119,10 @@ const Textarea = styled("textarea", {
   lineHeight: "inherit",
   fontFamily: "inherit",
   fontSize: "inherit",
-  borderRadius: 20,
+  borderRadius: "1em",
   border: "1px solid #ddc",
   color: "inherit",
+  boxShadow: "0px 0px 1em 2em rgba(255,255,255,0.7)",
 })
 
 export default function App() {
@@ -99,7 +165,7 @@ export default function App() {
               onClick={regenerateMessage(_id)}
             />
           </SentMessage>
-          {response && <AgentResponse>{response.text}</AgentResponse>}
+          {response && <AgentResponse {...response} />}
         </React.Fragment>
       ))}
       <Textarea
