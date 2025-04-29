@@ -87,10 +87,7 @@ export const regenerate = action({
       apiKey: process.env.OPENAI_API_KEY,
     })
 
-    const localTimeString = formatInstant(
-      getCurrentInstant(),
-      "conversational date time",
-    )
+    const localTimeString = formatInstant(getCurrentInstant(), "conversational")
 
     const systemPrompt = `
       ## Overview
