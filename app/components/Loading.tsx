@@ -123,5 +123,5 @@ export const Loading = styled(
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 )

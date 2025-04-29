@@ -13,7 +13,7 @@ export const getConversation = query({
         response: message.selectedResponseId
           ? await ctx.db.get(message.selectedResponseId)
           : null,
-      }))
+      })),
     )
   },
 })

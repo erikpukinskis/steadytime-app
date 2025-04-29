@@ -33,5 +33,5 @@ export const IconButton = styled(
     alignItems: "center",
     justifyContent: "center",
     color: "inherit",
-  }
+  },
 )

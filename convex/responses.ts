@@ -89,7 +89,7 @@ export const regenerate = action({
 
     const localTimeString = formatInstant(
       getCurrentInstant(),
-      "conversational date time"
+      "conversational date time",
     )
 
     const systemPrompt = `
@@ -205,7 +205,7 @@ export const create = internalMutation({
   },
   handler: async (
     ctx,
-    { replyingToMessageId, text, openAIResponseId, blocks }
+    { replyingToMessageId, text, openAIResponseId, blocks },
   ) => {
     const responseId = await ctx.db.insert("responses", {
       replyingToMessageId,

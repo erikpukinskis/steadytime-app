@@ -16,7 +16,7 @@ if (container) {
   root.render(
     <ConvexProvider client={convex}>
       <App />
-    </ConvexProvider>
+    </ConvexProvider>,
   )
 } else {
   throw new Error("Failed to find #root element")

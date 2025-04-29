@@ -12,7 +12,7 @@ type TimeFormat = "conversational date time"
 
 export function formatInstant(
   instant: Temporal.Instant,
-  format: TimeFormat
+  format: TimeFormat,
 ): string {
   switch (format) {
     case "conversational date time":
