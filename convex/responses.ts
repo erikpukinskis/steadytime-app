@@ -188,6 +188,8 @@ export const regenerate = action({
 function parseResponse(responseText: string) {
   const [text, blocksText] = responseText.split("-*-*-*-")
 
+  if (!blocksText) return { text, blocks: undefined }
+
   const cleaned = blocksText.replace(/^[^{[]*/, "").replace(/[^}\]]*$/, "")
 
   console.log("CLEANED", cleaned)

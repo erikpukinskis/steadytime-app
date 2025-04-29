@@ -154,8 +154,6 @@ export default function App() {
     return <Loading />
   }
 
-  console.log(messages)
-
   return (
     <Chat>
       {messages.map(({ _id, text, response }) => (
