@@ -133,7 +133,7 @@ export const regenerate = action({
       },
     ]
 
-    console.debug("INPUT", input)
+    // console.debug("INPUT", input)
 
     const response = await openai.responses.create({
       model: "gpt-4o",
@@ -151,20 +151,12 @@ export const regenerate = action({
 
           const { blocks, text } = parseResponse(content.text)
 
-          const responseId = await ctx.runMutation(internal.responses.create, {
+          await ctx.runMutation(internal.responses.create, {
             text,
             blocks,
             replyingToMessageId: args.messageId,
             openAIResponseId: response.id,
           })
-
-          // const messageId = ctx.runMutation(internal.responses.create, {
-          //   text,
-          //   blocks,
-          //   sentAt: toUnix(getCurrentInstant()),
-          // })
-
-          // return messageId
 
           break
         }
@@ -223,6 +215,7 @@ export const create = internalMutation({
       receivedAt: toUnix(getCurrentInstant()),
     })
 
+    console.log({ text, blocks })
     await ctx.runMutation(api.messages.selectResponse, {
       messageId: replyingToMessageId,
       responseId,

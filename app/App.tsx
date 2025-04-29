@@ -77,17 +77,15 @@ export default function App() {
     }
   }
 
-  const regenerateMessage = (id: Id<"messages">) => async () => {
-    console.log("regenerating", id)
-    const result = await regenerate({ messageId: id })
-    console.log("result", result)
+  const regenerateMessage = (id: Id<"messages">) => () => {
+    return void regenerate({ messageId: id })
   }
 
   if (!messages) {
     return <Loading />
   }
 
-  console.log({ messages })
+  console.log(messages)
 
   return (
     <Chat>
