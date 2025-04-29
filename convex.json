@@ -1,0 +1,4 @@
+{
+  "watch": ["convex/**/*", "app/helpers/**/*"],
+  "functions": "convex"
+}
