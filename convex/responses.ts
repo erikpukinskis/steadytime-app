@@ -87,10 +87,7 @@ export const regenerate = action({
       apiKey: process.env.OPENAI_API_KEY,
     })
 
-    const localTimeString = formatInstant(
-      getCurrentInstant(),
-      "conversational date time",
-    )
+    const localTimeString = formatInstant(getCurrentInstant(), "conversational")
 
     const systemPrompt = `
       ## Overview
@@ -190,6 +187,8 @@ export const regenerate = action({
 
 function parseResponse(responseText: string) {
   const [text, blocksText] = responseText.split("-*-*-*-")
+
+  if (!blocksText) return { text, blocks: undefined }
 
   const cleaned = blocksText.replace(/^[^{[]*/, "").replace(/[^}\]]*$/, "")
 

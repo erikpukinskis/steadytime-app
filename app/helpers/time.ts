@@ -8,14 +8,14 @@ export function toUnix(instant: Temporal.Instant): number {
   return instant.epochMilliseconds
 }
 
-type TimeFormat = "conversational date time"
+type TimeFormat = "conversational"
 
 export function formatInstant(
   instant: Temporal.Instant,
   format: TimeFormat,
 ): string {
   switch (format) {
-    case "conversational date time":
+    case "conversational":
       return instant.toLocaleString("en-US", {
         timeZone: "America/Los_Angeles",
       })

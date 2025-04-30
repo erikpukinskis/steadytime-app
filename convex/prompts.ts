@@ -125,8 +125,8 @@ export const planning = [
     -*-*-*-
     [
       {
-        "start": "12:25"
-        "end": "12:50"
+        "start": "12:25",
+        "end": "12:50",
         "title": "Light Prep & Grounding Block",
         "guidance": [
           "Review your top 3 Rails strengths and one question you want to ask",
@@ -147,6 +147,8 @@ export const planning = [
     ]
   `,
   `End blocks with a transition action e.g. stand, hydrate, brief stretch.`,
+  `Be sure to use 24-hour time for the start and end.`,
+  `Try not to repeat too much in your response text that is already in the blocks.`,
 ]
 
 export const blockSchema = z.object({
@@ -192,6 +194,7 @@ export const emotionHacks = [
 export const timeAwareness = [
   // "The user's local time is Sunday, April 27, 2025, 10:52 AM",
   "Use the provided date and time to accurately anchor blocks.",
+  'Begin each response by confirming the time, e.g. "It is 4:14pm Tuesday afternoon."',
 ]
 
 export const goalTracking = [

@@ -6,6 +6,7 @@ import { useQuery, useMutation, useAction } from "convex/react"
 import React, { useState } from "react"
 import Markdown from "react-markdown"
 import { Loading } from "./components/Loading"
+import { ErrorBoundary } from "./ErrorBoundary"
 import { formatDuration } from "./helpers/time"
 import { IconButton } from "~/components/IconButton"
 
@@ -43,13 +44,15 @@ const AgentResponse = styled(
     return (
       <div className={className}>
         <Markdown>{text}</Markdown>
-        {blocks && (
-          <BlockInfoGroup>
-            {blocks.map((block) => (
-              <BlockInfo key={block.start} {...block} />
-            ))}
-          </BlockInfoGroup>
-        )}
+        <ErrorBoundary message="Could not parse blocks">
+          {blocks && (
+            <BlockInfoGroup>
+              {blocks.map((block) => (
+                <BlockInfo key={block.start} {...block} />
+              ))}
+            </BlockInfoGroup>
+          )}
+        </ErrorBoundary>
       </div>
     )
   },
@@ -57,10 +60,10 @@ const AgentResponse = styled(
 )
 
 const BlockInfoGroup = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  gap: "1em",
-  maxWidth: 500,
+  // display: "flex",
+  // flexDirection: "column",
+  // gap: "1em",
+  // maxWidth: 500,
 })
 
 type BlockInfoProps = Pick<
@@ -87,11 +90,11 @@ const BlockInfo = styled(
     )
   },
   {
-    border: "1px solid #bbf",
-    boxShadow: "0px 2px 6px 0 rgba(0, 0, 0, 0.1)",
-    padding: "0em 1em 1em 1em",
-    borderRadius: "1em",
-    color: "#337",
+    // border: "1px solid #bbf",
+    // boxShadow: "0px 2px 6px 0 rgba(0, 0, 0, 0.1)",
+    // padding: "0em 1em 1em 1em",
+    // borderRadius: "1em",
+    // color: "#337",
   },
 )
 
@@ -150,8 +153,6 @@ export default function App() {
   if (!messages) {
     return <Loading />
   }
-
-  console.log(messages)
 
   return (
     <Chat>
