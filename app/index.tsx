@@ -1,6 +1,8 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react"
 import { createRoot } from "react-dom/client"
-import App from "./App"
+import { BrowserRouter } from "react-router"
+import { DesignSystemProvider } from "./DesignSystemProvider"
+import { Router } from "./Router"
 
 const CONVEX_URL = import.meta.env.VITE_CONVEX_URL
 
@@ -14,9 +16,13 @@ const container = document.getElementById("root")
 if (container) {
   const root = createRoot(container)
   root.render(
-    <ConvexProvider client={convex}>
-      <App />
-    </ConvexProvider>,
+    <BrowserRouter>
+      <ConvexProvider client={convex}>
+        <DesignSystemProvider>
+          <Router />
+        </DesignSystemProvider>
+      </ConvexProvider>
+    </BrowserRouter>,
   )
 } else {
   throw new Error("Failed to find #root element")
