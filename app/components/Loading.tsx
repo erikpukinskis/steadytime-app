@@ -6,7 +6,7 @@ type LoadingProps = {
 
 export const Loading = styled(
   ({ className }: LoadingProps) => (
-    <div className={className}>
+    <div data-component="Loading" className={className}>
       <svg width="24" height="24" viewBox="0 0 24 24">
         <rect x="1" y="1" rx="1" width="10" height="10" fill="currentColor">
           <animate
@@ -114,14 +114,24 @@ export const Loading = styled(
     </div>
   ),
   {
-    color: "#ee3",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+    color: "#a6f0ff",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    variants: {
+      size: {
+        small: {
+          width: 12,
+          height: 12,
+        },
+        fullscreen: {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+        },
+      },
+    },
   },
 )

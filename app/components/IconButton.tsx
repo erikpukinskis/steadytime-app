@@ -33,5 +33,7 @@ export const IconButton = styled(
     alignItems: "center",
     justifyContent: "center",
     color: "inherit",
+    borderRadius: "1em",
+    verticalAlign: "middle",
   },
 )

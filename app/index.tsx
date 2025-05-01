@@ -1,6 +1,7 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router"
+import { Layout } from "./components/Layout"
 import { DesignSystemProvider } from "./DesignSystemProvider"
 import { Router } from "./Router"
 
@@ -19,7 +20,9 @@ if (container) {
     <BrowserRouter>
       <ConvexProvider client={convex}>
         <DesignSystemProvider>
-          <Router />
+          <Layout>
+            <Router />
+          </Layout>
         </DesignSystemProvider>
       </ConvexProvider>
     </BrowserRouter>,
