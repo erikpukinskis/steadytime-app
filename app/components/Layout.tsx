@@ -88,8 +88,12 @@ const SidebarContainer = styled(
     width: "300px",
     position: "fixed",
     right: 0,
-    paddingRight: "1em",
+    padding: "1em",
     top: 0,
+    backgroundColor: "white",
+    minHeight: "100vh",
+    borderLeft: "4px solid #f8f8f8",
+    boxShadow: "0px 0px 5px 0px rgba(0, 0, 0, 0.1)",
   },
 )
 

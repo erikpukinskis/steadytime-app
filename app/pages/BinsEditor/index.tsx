@@ -1,35 +1,52 @@
 import { api } from "@convex/api"
-import { useQuery } from "convex/react"
-import { useState } from "react"
+import type { Id } from "@convex/dataModel"
+import { useMutation, useQuery } from "convex/react"
+import React from "react"
+import { EditGoalBinDialog } from "./EditGoalBinDialog"
 import { Button } from "~/components/Button"
-import { Link } from "~/components/Link"
+import { ButtonGroup } from "~/components/ButtonGroup"
+import { Card } from "~/components/Card"
+import { CardGroup } from "~/components/CardGroup"
+import { useDialog } from "~/components/Dialog"
+import { IconButton } from "~/components/IconButton"
+import { LinkButton } from "~/components/LinkButton"
 import { Loading } from "~/components/Loading"
 
-export const BinsEditor = () => {
+export const BinsEditor: React.FC = () => {
   const bins = useQuery(api.goals.listCurrentGoalBins)
-  const [loading, setLoading] = useState(false)
+  const { openDialog } = useDialog("edit-goal-bin")
+  const deleteGoalBin = useMutation(api.goals.deleteBin)
 
   if (!bins) {
     return <Loading size="fullscreen" />
   }
 
-  const handleClick = () => {
-    setLoading((loading) => !loading)
-
-    setTimeout(() => {
-      setLoading((loading) => !loading)
-    }, 3000)
+  const deleteBinHandler = (binId: Id<"goalBins">) => async () => {
+    await deleteGoalBin({ binId })
   }
 
   return (
     <>
-      <h2>
-        Edit Bins
-        <Link to="/chat">Back</Link>
-      </h2>
-      <Button onClick={handleClick} loading={loading}>
-        Add Bin
-      </Button>
+      <h2>Edit Bins</h2>
+      <EditGoalBinDialog />
+      <CardGroup>
+        {bins.map((bin) => (
+          <Card horizontal key={bin._id}>
+            {/* <Icon icon="grip" alt="drag handle" /> */}
+            <div>{bin.name}</div>
+            <IconButton
+              icon="trash"
+              alt="delete"
+              stick="right"
+              onClick={deleteBinHandler(bin._id)}
+            />
+          </Card>
+        ))}
+      </CardGroup>
+      <ButtonGroup>
+        <Button onClick={openDialog}>Add Bin</Button>
+        <LinkButton to="/chat">Done</LinkButton>
+      </ButtonGroup>
     </>
   )
 }

@@ -14,7 +14,7 @@ export const Goals: React.FC = () => {
     <>
       <h2>
         Current Goals
-        <Link to="/chat/bins/edit">Edit</Link>
+        <Link to="/chat/bins/edit">Edit Bins</Link>
       </h2>
       {bins.map((bin) => (
         <div key={bin._id}>

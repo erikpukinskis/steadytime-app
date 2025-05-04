@@ -1,39 +1,47 @@
 import { styled } from "@stitches/react"
-import { IconReload } from "@tabler/icons-react"
-
-const ICON_COMPONENTS = {
-  reload: IconReload,
-}
-
-export type IconName = keyof typeof ICON_COMPONENTS
+import type { IconName } from "./Icon"
+import { Icon } from "./Icon"
 
 type IconButtonProps = {
   icon: IconName
   alt: string
+  stick?: "right"
   className?: string
   onClick?: () => void
 }
 
 export const IconButton = styled(
   ({ className, icon, onClick, alt }: IconButtonProps) => {
-    const IconComponent = ICON_COMPONENTS[icon]
     return (
       <button className={className} aria-label={alt} onClick={onClick}>
-        <IconComponent />
+        <Icon icon={icon} alt={alt} />
       </button>
     )
   },
   {
     background: "none",
-    border: "none",
-    padding: 0,
-    margin: 0,
+    border: "1px solid transparent",
+    padding: "0.5em",
+    margin: "-0.5em",
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
     color: "inherit",
-    borderRadius: "1em",
+    borderRadius: 999,
     verticalAlign: "middle",
+    "&:hover": {
+      backgroundColor: "#f0f0f0",
+    },
+    "&:active": {
+      borderColor: "#a6f0ff",
+    },
+    variants: {
+      stick: {
+        right: {
+          marginLeft: "auto",
+        },
+      },
+    },
   },
 )

@@ -11,7 +11,7 @@ export const vBlock = v.object({
 
 export default defineSchema({
   goalBins: defineTable({
-    text: v.string(),
+    name: v.string(),
   }),
   goals: defineTable({
     text: v.string(),
