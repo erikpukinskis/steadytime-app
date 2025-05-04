@@ -151,7 +151,7 @@ export default function App() {
   }
 
   if (!messages) {
-    return <Loading fullscreen />
+    return <Loading size="fullscreen" />
   }
 
   return (
