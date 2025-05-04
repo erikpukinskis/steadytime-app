@@ -93,11 +93,61 @@ export function Checklist<T>({
     return EditorState.createWithContent(contentState, checklistDecorator)
   })
 
+  /**
+   * I want to fire off all of these schmancy semantic events when the editor
+   * state changes. But as a point of fact, I don't actually need to store the
+   * individual goals as rows. I can just store the entire editor state.
+   *
+   * Although it does get a little squirrely when I need to figure out which
+   * items are checked. Not a huge deal—I would just ask for the entity on the
+   * block and see if checked is true or false.
+   *
+   * But if I fire off fine-grained events then I can just model that nicely in
+   * the database. Hmm.
+   */
+  function fireCallback(editorState: EditorState) {
+    switch (editorState.getLastChangeType()) {
+      case "change-block-data":
+      case "change-block-type":
+      case "change-inline-style":
+      case "move-block": // not sure how to get this? copy/paste? drag/drop?
+        throw new Error(
+          `We don't expect ${editorState.getLastChangeType()} changes to happen?`,
+        )
+      case "adjust-depth": // They pressed tab. Do nothing.
+      case "redo": // Supposedly not needed? Assuming we will get the actual change separately.
+      case "undo": // Supposedly not needed? Assuming we will get the actual change separately.
+      case "spellcheck-change": // Supposedly not needed? Assuming we will get the actual change separately.
+      case "apply-entity": // Not sure why this happens. But it does. Maybe entities are getting removed?
+        break
+      case "backspace-character":
+        // TODO: Update the current item, delete the current item, or merge with the the previous item
+        break
+      case "delete-character":
+        // TODO: Update the current item, delete the current item, or merge with the next item
+        break
+      case "insert-characters":
+        // TODO: Create or update the current block
+        break
+      case "insert-fragment":
+        // TODO: update current block and/or create one or more new items
+        break
+      case "remove-range":
+        // TODO: update 0, 1, or 2 items and/or delete 1 or more items
+        break
+      case "split-block":
+        // TODO: update an item and/or create a new item
+        break
+    }
+  }
+
   return (
     <ChecklistContainer data-component="Checklist">
       <Editor
         editorState={editorState}
         onChange={(editorState) => {
+          fireCallback(editorState)
+
           const selection = editorState.getSelection()
           const contentState = addChecklistItems(
             editorState.getCurrentContent(),
@@ -116,6 +166,7 @@ export function Checklist<T>({
 
 function addChecklistItems(contentState: ContentState) {
   const blocks = contentState.getBlockMap()
+
   blocks.forEach((block) => {
     if (!block) return
 
