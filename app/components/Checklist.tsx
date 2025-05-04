@@ -88,40 +88,7 @@ export function Checklist<T>({
   onRename,
 }: ChecklistProps<T>) {
   const [editorState, setEditorState] = useState(() => {
-    let contentState = ContentState.createFromText("\u200B")
-
-    const blocks = contentState.getBlockMap()
-    blocks.forEach((block) => {
-      if (!block) return
-
-      const key = block.getKey()
-      // const text = block.getText()
-
-      // If block is empty, insert a zero-width space
-      // if (text === "") {
-      //   const selection = SelectionState.createEmpty(key)
-      //   contentState = Modifier.insertText(contentState, selection, "\u200B")
-      // }
-
-      // Check if block already has a checklist item entity
-      const entityKey = block.getEntityAt(0)
-      if (!entityKey) {
-        // Create new checklist item entity if none exists
-        const entityKey = contentState
-          .createEntity("CHECKLIST-ITEM", "MUTABLE", {
-            checked: false,
-          })
-          .getLastCreatedEntityKey()
-
-        // Apply entity to the entire block
-        const selection = SelectionState.createEmpty(key).merge({
-          anchorOffset: 0,
-          focusOffset: block.getLength(),
-        })
-
-        contentState = Modifier.applyEntity(contentState, selection, entityKey)
-      }
-    })
+    const contentState = addChecklistItems(ContentState.createFromText(""))
 
     return EditorState.createWithContent(contentState, checklistDecorator)
   })
@@ -130,8 +97,63 @@ export function Checklist<T>({
     <ChecklistContainer data-component="Checklist">
       <Editor
         editorState={editorState}
-        onChange={(editorState) => setEditorState(editorState)}
+        onChange={(editorState) => {
+          const selection = editorState.getSelection()
+          const contentState = addChecklistItems(
+            editorState.getCurrentContent(),
+          )
+          const newEditorState = EditorState.push(
+            editorState,
+            contentState,
+            "apply-entity",
+          )
+          setEditorState(EditorState.forceSelection(newEditorState, selection))
+        }}
       />
     </ChecklistContainer>
   )
+}
+
+function addChecklistItems(contentState: ContentState) {
+  const blocks = contentState.getBlockMap()
+  blocks.forEach((block) => {
+    if (!block) return
+
+    const key = block.getKey()
+    const text = block.getText()
+    let blockLength = block.getLength()
+
+    if (text === "") {
+      const selection = SelectionState.createEmpty(key).merge({
+        anchorOffset: 0,
+        focusOffset: 0,
+      })
+
+      // Insert a zero-width space to make the block non-empty
+      contentState = Modifier.insertText(contentState, selection, "\u200B")
+      blockLength = 1
+    }
+
+    // Check if block already has a checklist item entity
+    const entityKey = block.getEntityAt(0)
+
+    if (!entityKey) {
+      // Create new checklist item entity if none exists
+      const entityKey = contentState
+        .createEntity("CHECKLIST-ITEM", "MUTABLE", {
+          checked: false,
+        })
+        .getLastCreatedEntityKey()
+
+      // Apply entity to the entire block
+      const selection = SelectionState.createEmpty(key).merge({
+        anchorOffset: 0,
+        focusOffset: blockLength,
+      })
+
+      contentState = Modifier.applyEntity(contentState, selection, entityKey)
+    }
+  })
+
+  return contentState
 }
