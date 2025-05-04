@@ -1,19 +1,11 @@
 module.exports = {
   "root": true,
-  "plugins": [
-    "import",
-    "@typescript-eslint",
-    "unused-imports"
-  ],
-  "ignorePatterns": [
-    "*.js"
-  ],
+  "plugins": ["import", "@typescript-eslint", "unused-imports"],
+  "ignorePatterns": ["*.js"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "warnOnUnsupportedTypeScriptVersion": false,
-    "project": [
-      "./tsconfig.json"
-    ],
+    "project": ["./tsconfig.json"],
   },
   "settings": {
     "react": {
@@ -45,13 +37,8 @@ module.exports = {
       },
     ],
     "unused-imports/no-unused-imports": "error",
-    "semi": [
-      "error",
-      "never"
-    ],
-    "react/prop-types": [
-      "off"
-    ],
+    "semi": ["error", "never"],
+    "react/prop-types": ["off"],
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
@@ -61,13 +48,8 @@ module.exports = {
       },
     ],
     "react/react-in-jsx-scope": "off",
-    "eol-last": [
-      "error",
-      "always"
-    ],
-    "array-element-newline": [
-      "off"
-    ],
+    "eol-last": ["error", "always"],
+    "array-element-newline": ["off"],
     "import/order": [
       "error",
       {
@@ -84,11 +66,9 @@ module.exports = {
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [
-          ".."
-        ],
+        "patterns": [".."],
       },
     ],
-    "@typescript-eslint/restrict-template-expressions": "off"
+    "@typescript-eslint/restrict-template-expressions": "off",
   },
 }
