@@ -15,7 +15,7 @@ export default defineSchema({
   }),
   goals: defineTable({
     text: v.string(),
-    completedAt: v.number(),
+    completedAt: v.optional(v.number()),
     binId: v.id("goalBins"),
   }),
   moods: defineTable({
