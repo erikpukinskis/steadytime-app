@@ -72,7 +72,7 @@ export const Chat: React.FC = () => {
   }
 
   if (!messages) {
-    return <Loading />
+    return <Loading size="fullscreen" />
   }
 
   return (

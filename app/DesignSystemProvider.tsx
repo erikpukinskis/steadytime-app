@@ -1,5 +1,6 @@
 import { globalCss } from "@stitches/react"
 import React from "react"
+import { DialogProvider } from "./components/Dialog"
 
 const globalStyles = globalCss({
   body: {
@@ -10,9 +11,25 @@ const globalStyles = globalCss({
   },
   "*": {
     boxSizing: "border-box",
-    ":focus": {
-      outlineColor: "#8ca",
+    "&:focus-visible": {
+      outlineColor: "rgb(164, 240, 255, 0.65)",
+      outlineWidth: "3px",
+      outlineStyle: "solid",
+      outlineOffset: "2px",
     },
+  },
+  "h1, h2, h3": {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: "0.75em",
+    marginBottom: "0.25em",
+    a: {
+      marginLeft: "auto",
+    },
+  },
+  a: {
+    color: "#c7d",
   },
 })
 
@@ -25,5 +42,5 @@ export const DesignSystemProvider: React.FC<DesignSystemProviderProps> = ({
 }) => {
   globalStyles()
 
-  return <div>{children}</div>
+  return <DialogProvider>{children}</DialogProvider>
 }

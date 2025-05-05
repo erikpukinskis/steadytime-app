@@ -11,11 +11,11 @@ export const vBlock = v.object({
 
 export default defineSchema({
   goalBins: defineTable({
-    text: v.string(),
+    name: v.string(),
   }),
   goals: defineTable({
     text: v.string(),
-    completedAt: v.number(),
+    completedAt: v.optional(v.number()),
     binId: v.id("goalBins"),
   }),
   moods: defineTable({
